@@ -1,0 +1,5 @@
+### LOCALHOST
+GET http://localhost:3000 HTTP/1.1
+
+### RENDER
+GET https://cse341-6d79.onrender.com HTTP/1.1
