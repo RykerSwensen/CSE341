@@ -1,25 +1,39 @@
-const mongodb = require('../db/connection');
-const ObjectId = require('mongodb').ObjectId;
+const mongoose = require("mongoose");
+const connectDB = require("../db/connect");
 
-const getAll = async (req, res, next) => {
-  const result = await mongodb.getDb().db().collection('contacts').find();
-  result.toArray().then((lists) => {
-    res.setHeader('Content-Type', 'application/json');
-    res.status(200).json(lists);
-  });
+// This connects to the db
+connectDB();
+
+const getAllContacts = async (req, res, next) => {
+  try {
+    //Using the connection to get the list of contacts
+    const contacts = await mongoose.connection
+      .collection("contacts")
+      .find({})
+      .toArray();
+    res.json(contacts);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Internal server error" });
+  }
 };
 
-const getSingle = async (req, res, next) => {
-  const userId = new ObjectId(req.params.id);
-  const result = await mongodb
-    .getDb()
-    .db()
-    .collection('contacts')
-    .find({ _id: userId });
-  result.toArray().then((lists) => {
-    res.setHeader('Content-Type', 'application/json');
-    res.status(200).json(lists[0]);
-  });
+const getContactById = async (req, res, next) => {
+  const contactId = req.params.id;
+
+  try {
+    const contact = await mongoose.connection
+      .collection("contacts")
+      .findOne({ _id: new mongoose.Types.ObjectId(contactId) });
+
+    if (!contact) {
+      return res.status(404).json({ error: "Contact not found" });
+    }
+    res.json(contact);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Internal server error" });
+  }
 };
 
-module.exports = { getAll, getSingle };
+module.exports = { getAllContacts, getContactById };
