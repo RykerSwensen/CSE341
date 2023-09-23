@@ -1,0 +1,14 @@
+// LOCALHOST 
+GET http://localhost:8080/contacts/ HTTP/1.1
+
+###
+// LOCALHOST Ryker
+GET http://localhost:8080/contacts/650f6674db07b6b4b74cc340 HTTP/1.1
+
+###
+// LOCALHOST Corinne
+GET http://localhost:8080/contacts/650f6674db07b6b4b74cc341 HTTP/1.1
+
+###
+// LOCALHOST Kassidy
+GET http://localhost:8080/contacts/650f6674db07b6b4b74cc342 HTTP/1.1

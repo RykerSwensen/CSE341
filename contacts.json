@@ -1,0 +1,23 @@
+[
+     {
+      "firstName": "Ryker",
+      "lastName": "Swensen",
+      "email": "rykerswensen@test.com",
+      "favoriteColor": "Green",
+      "birthday": "09/30/1999"
+    },
+    {
+      "firstName": "Corinne",
+      "lastName": "Swensen",
+      "email": "corinner@test.com",
+      "favoriteColor": "Purple",
+      "birthday": "07/12/10"
+    },
+    {
+      "firstName": "Kassidy",
+      "lastName": "Bleue",
+      "email": "cb@test.com",
+      "favoriteColor": "Yellow",
+      "birthday": "12/25/95"
+    }
+]
