@@ -1,39 +1,77 @@
-const mongoose = require("mongoose");
-const connectDB = require("../db/connect");
+const mongodb = require('../db/connect');
+const ObjectId = require('mongodb').ObjectId;
 
-// This connects to the db
-connectDB();
+const getAll = async (req, res) => {
+  const result = await mongodb.getDb().db().collection('contacts').find();
+  result.toArray().then((lists) => {
+    res.setHeader('Content-Type', 'application/json');
+    res.status(200).json(lists);
+  });
+};
 
-const getAllContacts = async (req, res, next) => {
-  try {
-    //Using the connection to get the list of contacts
-    const contacts = await mongoose.connection
-      .collection("contacts")
-      .find({})
-      .toArray();
-    res.json(contacts);
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ error: "Internal server error" });
+const getSingle = async (req, res) => {
+  const userId = new ObjectId(req.params.id);
+  const result = await mongodb.getDb().db().collection('contacts').find({ _id: userId });
+  result.toArray().then((lists) => {
+    res.setHeader('Content-Type', 'application/json');
+    res.status(200).json(lists[0]);
+  });
+};
+
+const createContact = async (req, res) => {
+  const contact = {
+    firstName: req.body.firstName,
+    lastName: req.body.lastName,
+    email: req.body.email,
+    favoriteColor: req.body.favoriteColor,
+    birthday: req.body.birthday
+  };
+  const response = await mongodb.getDb().db().collection('contacts').insertOne(contact);
+  if (response.acknowledged) {
+    res.status(201).json(response);
+  } else {
+    res.status(500).json(response.error || 'Some error occurred while creating the contact.');
   }
 };
 
-const getContactById = async (req, res, next) => {
-  const contactId = req.params.id;
-
-  try {
-    const contact = await mongoose.connection
-      .collection("contacts")
-      .findOne({ _id: new mongoose.Types.ObjectId(contactId) });
-
-    if (!contact) {
-      return res.status(404).json({ error: "Contact not found" });
-    }
-    res.json(contact);
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ error: "Internal server error" });
+const updateContact = async (req, res) => {
+  const userId = new ObjectId(req.params.id);
+  // be aware of updateOne if you only want to update specific fields
+  const contact = {
+    firstName: req.body.firstName,
+    lastName: req.body.lastName,
+    email: req.body.email,
+    favoriteColor: req.body.favoriteColor,
+    birthday: req.body.birthday
+  };
+  const response = await mongodb
+    .getDb()
+    .db()
+    .collection('contacts')
+    .replaceOne({ _id: userId }, contact);
+  console.log(response);
+  if (response.modifiedCount > 0) {
+    res.status(204).send();
+  } else {
+    res.status(500).json(response.error || 'Some error occurred while updating the contact.');
   }
 };
 
-module.exports = { getAllContacts, getContactById };
+const deleteContact = async (req, res) => {
+  const userId = new ObjectId(req.params.id);
+  const response = await mongodb.getDb().db().collection('contacts').deleteOne({ _id: userId }, true);
+  console.log(response);
+  if (response.deletedCount > 0) {
+    res.status(200).send();
+  } else {
+    res.status(500).json(response.error || 'Some error occurred while deleting the contact.');
+  }
+};
+
+module.exports = {
+  getAll,
+  getSingle,
+  createContact,
+  updateContact,
+  deleteContact
+};

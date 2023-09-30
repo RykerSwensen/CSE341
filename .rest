@@ -12,3 +12,74 @@ GET http://localhost:8080/contacts/650f6674db07b6b4b74cc341 HTTP/1.1
 ###
 // LOCALHOST Kassidy
 GET http://localhost:8080/contacts/650f6674db07b6b4b74cc342 HTTP/1.1
+
+### Create contact
+POST http://localhost:8080/contacts HTTP/1.1
+content-type: application/json
+
+{
+    "firstName":"Adam",
+    "lastName":"Sam",
+    "email":"aSam@test.com",
+    "favoriteColor":"Orange",
+    "birthday":"06/19/2000"
+}
+
+### PUT contact
+PUT http://localhost:8080/contacts/650f6674db07b6b4b74cc340 HTTP/1.1
+content-type: application/json
+
+{
+    "firstName": "Ryker",
+      "lastName": "Swensen",
+      "email": "rykerswensen@test.com",
+      "favoriteColor": "Purple",
+      "birthday": "09/30/1999"
+}
+### DELETE contact
+DELETE http://localhost:8080/contacts/651844b5d03f01c40684b83b HTTP/1.1
+
+###
+// RENDER
+GET https://cse341-96fi.onrender.com/contacts HTTP/1.1
+
+###
+// RENDER Ryker
+GET https://cse341-96fi.onrender.com/contacts/650f6674db07b6b4b74cc340 HTTP/1.1
+
+###
+// RENDER Corinne
+GET https://cse341-96fi.onrender.com/contacts/650f6674db07b6b4b74cc341 HTTP/1.1
+
+###
+// RENDER Kassidy
+GET https://cse341-96fi.onrender.com/contacts/650f6674db07b6b4b74cc342 HTTP/1.1
+
+### Create contact
+POST https://cse341-96fi.onrender.com/contacts HTTP/1.1
+content-type: application/json
+
+{
+    "firstName":"Adam",
+    "lastName":"Sam",
+    "email":"aSam@test.com",
+    "favoriteColor":"Orange",
+    "birthday":"06/19/2000"
+}
+
+
+### PUT contact
+PUT https://cse341-96fi.onrender.com/contacts/650f6674db07b6b4b74cc340 HTTP/1.1
+content-type: application/json
+
+{
+    "firstName": "Ryker",
+      "lastName": "Swensen",
+      "email": "rykerswensen@test.com",
+      "favoriteColor": "Yellow",
+      "birthday": "09/30/1999"
+}
+
+
+### DELETE contact
+DELETE https://cse341-96fi.onrender.com/contacts/650f6674db07b6b4b74cc340 HTTP/1.1
